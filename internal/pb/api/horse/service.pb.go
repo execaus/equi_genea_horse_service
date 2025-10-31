@@ -9,6 +9,7 @@ package horsepb
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -75,9 +76,7 @@ func (x *CreateGenderRequest) GetDescription() string {
 
 type CreateGenderResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   *string                `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
+	HorseGender   *HorseGender           `protobuf:"bytes,1,opt,name=horse_gender,json=horseGender,proto3" json:"horse_gender,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -112,43 +111,73 @@ func (*CreateGenderResponse) Descriptor() ([]byte, []int) {
 	return file_api_horse_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateGenderResponse) GetId() string {
+func (x *CreateGenderResponse) GetHorseGender() *HorseGender {
 	if x != nil {
-		return x.Id
+		return x.HorseGender
 	}
-	return ""
+	return nil
 }
 
-func (x *CreateGenderResponse) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
+type GetGenderListResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Genders       []*HorseGender         `protobuf:"bytes,1,rep,name=genders,proto3" json:"genders,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateGenderResponse) GetDescription() string {
-	if x != nil && x.Description != nil {
-		return *x.Description
+func (x *GetGenderListResponse) Reset() {
+	*x = GetGenderListResponse{}
+	mi := &file_api_horse_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGenderListResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGenderListResponse) ProtoMessage() {}
+
+func (x *GetGenderListResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_horse_service_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
 	}
-	return ""
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGenderListResponse.ProtoReflect.Descriptor instead.
+func (*GetGenderListResponse) Descriptor() ([]byte, []int) {
+	return file_api_horse_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetGenderListResponse) GetGenders() []*HorseGender {
+	if x != nil {
+		return x.Genders
+	}
+	return nil
 }
 
 var File_api_horse_service_proto protoreflect.FileDescriptor
 
 const file_api_horse_service_proto_rawDesc = "" +
 	"\n" +
-	"\x17api/horse/service.proto\x12\x05horse\"`\n" +
+	"\x17api/horse/service.proto\x12\x05horse\x1a\x1bgoogle/protobuf/empty.proto\x1a\x16api/horse/models.proto\"`\n" +
 	"\x13CreateGenderRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12%\n" +
 	"\vdescription\x18\x02 \x01(\tH\x00R\vdescription\x88\x01\x01B\x0e\n" +
-	"\f_description\"q\n" +
-	"\x14CreateGenderResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12%\n" +
-	"\vdescription\x18\x03 \x01(\tH\x00R\vdescription\x88\x01\x01B\x0e\n" +
-	"\f_description2W\n" +
+	"\f_description\"N\n" +
+	"\x14CreateGenderResponse\x126\n" +
+	"\fhorse_gender\x18\x01 \x01(\v2\x13.models.HorseGenderR\vhorseGender\"F\n" +
+	"\x15GetGenderListResponse\x12-\n" +
+	"\agenders\x18\x01 \x03(\v2\x13.models.HorseGenderR\agenders2\x9e\x01\n" +
 	"\fHorseService\x12G\n" +
-	"\fCreateGender\x12\x1a.horse.CreateGenderRequest\x1a\x1b.horse.CreateGenderResponseB\x13Z\x11api/horse;horsepbb\x06proto3"
+	"\fCreateGender\x12\x1a.horse.CreateGenderRequest\x1a\x1b.horse.CreateGenderResponse\x12E\n" +
+	"\rGetGenderList\x12\x16.google.protobuf.Empty\x1a\x1c.horse.GetGenderListResponseB\x13Z\x11api/horse;horsepbb\x06proto3"
 
 var (
 	file_api_horse_service_proto_rawDescOnce sync.Once
@@ -162,19 +191,26 @@ func file_api_horse_service_proto_rawDescGZIP() []byte {
 	return file_api_horse_service_proto_rawDescData
 }
 
-var file_api_horse_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_api_horse_service_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_api_horse_service_proto_goTypes = []any{
-	(*CreateGenderRequest)(nil),  // 0: horse.CreateGenderRequest
-	(*CreateGenderResponse)(nil), // 1: horse.CreateGenderResponse
+	(*CreateGenderRequest)(nil),   // 0: horse.CreateGenderRequest
+	(*CreateGenderResponse)(nil),  // 1: horse.CreateGenderResponse
+	(*GetGenderListResponse)(nil), // 2: horse.GetGenderListResponse
+	(*HorseGender)(nil),           // 3: models.HorseGender
+	(*emptypb.Empty)(nil),         // 4: google.protobuf.Empty
 }
 var file_api_horse_service_proto_depIdxs = []int32{
-	0, // 0: horse.HorseService.CreateGender:input_type -> horse.CreateGenderRequest
-	1, // 1: horse.HorseService.CreateGender:output_type -> horse.CreateGenderResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	3, // 0: horse.CreateGenderResponse.horse_gender:type_name -> models.HorseGender
+	3, // 1: horse.GetGenderListResponse.genders:type_name -> models.HorseGender
+	0, // 2: horse.HorseService.CreateGender:input_type -> horse.CreateGenderRequest
+	4, // 3: horse.HorseService.GetGenderList:input_type -> google.protobuf.Empty
+	1, // 4: horse.HorseService.CreateGender:output_type -> horse.CreateGenderResponse
+	2, // 5: horse.HorseService.GetGenderList:output_type -> horse.GetGenderListResponse
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_api_horse_service_proto_init() }
@@ -182,15 +218,15 @@ func file_api_horse_service_proto_init() {
 	if File_api_horse_service_proto != nil {
 		return
 	}
+	file_api_horse_models_proto_init()
 	file_api_horse_service_proto_msgTypes[0].OneofWrappers = []any{}
-	file_api_horse_service_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_horse_service_proto_rawDesc), len(file_api_horse_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

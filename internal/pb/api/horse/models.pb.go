@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,13 +21,93 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type HorseGender struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   *string                `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HorseGender) Reset() {
+	*x = HorseGender{}
+	mi := &file_api_horse_models_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HorseGender) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HorseGender) ProtoMessage() {}
+
+func (x *HorseGender) ProtoReflect() protoreflect.Message {
+	mi := &file_api_horse_models_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HorseGender.ProtoReflect.Descriptor instead.
+func (*HorseGender) Descriptor() ([]byte, []int) {
+	return file_api_horse_models_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *HorseGender) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *HorseGender) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *HorseGender) GetDescription() string {
+	if x != nil && x.Description != nil {
+		return *x.Description
+	}
+	return ""
+}
+
 var File_api_horse_models_proto protoreflect.FileDescriptor
 
 const file_api_horse_models_proto_rawDesc = "" +
 	"\n" +
-	"\x16api/horse/models.proto\x12\x06modelsB\x13Z\x11api/horse;horsepbb\x06proto3"
+	"\x16api/horse/models.proto\x12\x06models\"h\n" +
+	"\vHorseGender\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12%\n" +
+	"\vdescription\x18\x03 \x01(\tH\x00R\vdescription\x88\x01\x01B\x0e\n" +
+	"\f_descriptionB\x13Z\x11api/horse;horsepbb\x06proto3"
 
-var file_api_horse_models_proto_goTypes = []any{}
+var (
+	file_api_horse_models_proto_rawDescOnce sync.Once
+	file_api_horse_models_proto_rawDescData []byte
+)
+
+func file_api_horse_models_proto_rawDescGZIP() []byte {
+	file_api_horse_models_proto_rawDescOnce.Do(func() {
+		file_api_horse_models_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_horse_models_proto_rawDesc), len(file_api_horse_models_proto_rawDesc)))
+	})
+	return file_api_horse_models_proto_rawDescData
+}
+
+var file_api_horse_models_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_api_horse_models_proto_goTypes = []any{
+	(*HorseGender)(nil), // 0: models.HorseGender
+}
 var file_api_horse_models_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
@@ -40,18 +121,20 @@ func file_api_horse_models_proto_init() {
 	if File_api_horse_models_proto != nil {
 		return
 	}
+	file_api_horse_models_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_horse_models_proto_rawDesc), len(file_api_horse_models_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_api_horse_models_proto_goTypes,
 		DependencyIndexes: file_api_horse_models_proto_depIdxs,
+		MessageInfos:      file_api_horse_models_proto_msgTypes,
 	}.Build()
 	File_api_horse_models_proto = out.File
 	file_api_horse_models_proto_goTypes = nil

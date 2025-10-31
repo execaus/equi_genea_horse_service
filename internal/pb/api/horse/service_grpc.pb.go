@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,7 +20,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	HorseService_CreateGender_FullMethodName = "/horse.HorseService/CreateGender"
+	HorseService_CreateGender_FullMethodName  = "/horse.HorseService/CreateGender"
+	HorseService_GetGenderList_FullMethodName = "/horse.HorseService/GetGenderList"
 )
 
 // HorseServiceClient is the client API for HorseService service.
@@ -27,6 +29,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type HorseServiceClient interface {
 	CreateGender(ctx context.Context, in *CreateGenderRequest, opts ...grpc.CallOption) (*CreateGenderResponse, error)
+	GetGenderList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetGenderListResponse, error)
 }
 
 type horseServiceClient struct {
@@ -47,11 +50,22 @@ func (c *horseServiceClient) CreateGender(ctx context.Context, in *CreateGenderR
 	return out, nil
 }
 
+func (c *horseServiceClient) GetGenderList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetGenderListResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetGenderListResponse)
+	err := c.cc.Invoke(ctx, HorseService_GetGenderList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HorseServiceServer is the server API for HorseService service.
 // All implementations must embed UnimplementedHorseServiceServer
 // for forward compatibility.
 type HorseServiceServer interface {
 	CreateGender(context.Context, *CreateGenderRequest) (*CreateGenderResponse, error)
+	GetGenderList(context.Context, *emptypb.Empty) (*GetGenderListResponse, error)
 	mustEmbedUnimplementedHorseServiceServer()
 }
 
@@ -64,6 +78,9 @@ type UnimplementedHorseServiceServer struct{}
 
 func (UnimplementedHorseServiceServer) CreateGender(context.Context, *CreateGenderRequest) (*CreateGenderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateGender not implemented")
+}
+func (UnimplementedHorseServiceServer) GetGenderList(context.Context, *emptypb.Empty) (*GetGenderListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGenderList not implemented")
 }
 func (UnimplementedHorseServiceServer) mustEmbedUnimplementedHorseServiceServer() {}
 func (UnimplementedHorseServiceServer) testEmbeddedByValue()                      {}
@@ -104,6 +121,24 @@ func _HorseService_CreateGender_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HorseService_GetGenderList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HorseServiceServer).GetGenderList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HorseService_GetGenderList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HorseServiceServer).GetGenderList(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HorseService_ServiceDesc is the grpc.ServiceDesc for HorseService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +149,10 @@ var HorseService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateGender",
 			Handler:    _HorseService_CreateGender_Handler,
+		},
+		{
+			MethodName: "GetGenderList",
+			Handler:    _HorseService_GetGenderList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
