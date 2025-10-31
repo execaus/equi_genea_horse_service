@@ -29,6 +29,20 @@ func (h *HorseService) CreateGender(ctx context.Context, name string, descriptio
 	return gender.LoadFromDB(&dbGender), nil
 }
 
-func (h *HorseService) GetGenderList() []*models.HorseGender {
+func (h *HorseService) GetGenderList(ctx context.Context) ([]*models.HorseGender, error) {
+	dbGenders, err := h.queries.GetHorseGenderList(ctx)
+	if err != nil {
+		return nil, err
+	}
 
+	genders := make([]*models.HorseGender, len(dbGenders))
+
+	var currGender *models.HorseGender
+
+	for i := 0; i < len(dbGenders); i++ {
+		currGender = &models.HorseGender{}
+		genders = append(genders, currGender.LoadFromDB(&dbGenders[i]))
+	}
+
+	return genders, nil
 }

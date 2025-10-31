@@ -26,6 +26,16 @@ func (h *HorseHandler) CreateGender(ctx context.Context, in *horsepb.CreateGende
 	return &horsepb.CreateGenderResponse{HorseGender: gender.ToHorseGenderPB()}, nil
 }
 
-func (h *HorseHandler) GetGenderList(context.Context, *emptypb.Empty) (*horsepb.GetGenderListResponse, error) {
+func (h *HorseHandler) GetGenderList(ctx context.Context, in *emptypb.Empty) (*horsepb.GetGenderListResponse, error) {
+	genders, err := h.service.GetGenderList(ctx)
+	if err != nil {
+		return nil, err
+	}
 
+	pbGenders := make([]*horsepb.HorseGender, len(genders))
+	for i := 0; i < len(genders); i++ {
+		pbGenders[i] = genders[i].ToHorseGenderPB()
+	}
+
+	return &horsepb.GetGenderListResponse{Genders: pbGenders}, nil
 }
