@@ -7,3 +7,8 @@ RETURNING *;
 SELECT *
 FROM horse_gender
 ORDER BY name;
+
+-- name: GetHorseColorList :many
+SELECT *
+FROM horse_color
+ORDER BY name;

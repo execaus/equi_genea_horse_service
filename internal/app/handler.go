@@ -17,16 +17,21 @@ func NewHorseHandler(service *service.HorseService) *HorseHandler {
 	return &HorseHandler{service: service}
 }
 
-func (h *HorseHandler) CreateGender(ctx context.Context, in *horsepb.CreateGenderRequest) (*horsepb.CreateGenderResponse, error) {
-	gender, err := h.service.CreateGender(ctx, in.Name, in.Description)
+func (h *HorseHandler) GetColorList(ctx context.Context, _ *emptypb.Empty) (*horsepb.GetColorListResponse, error) {
+	colors, err := h.service.GetColorList(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	return &horsepb.CreateGenderResponse{HorseGender: gender.ToHorseGenderPB()}, nil
+	pbColors := make([]*horsepb.HorseColor, len(colors))
+	for i := 0; i < len(colors); i++ {
+		pbColors[i] = colors[i].ToHorseColorPB()
+	}
+
+	return &horsepb.GetColorListResponse{Colors: pbColors}, nil
 }
 
-func (h *HorseHandler) GetGenderList(ctx context.Context, in *emptypb.Empty) (*horsepb.GetGenderListResponse, error) {
+func (h *HorseHandler) GetGenderList(ctx context.Context, _ *emptypb.Empty) (*horsepb.GetGenderListResponse, error) {
 	genders, err := h.service.GetGenderList(ctx)
 	if err != nil {
 		return nil, err
@@ -38,4 +43,13 @@ func (h *HorseHandler) GetGenderList(ctx context.Context, in *emptypb.Empty) (*h
 	}
 
 	return &horsepb.GetGenderListResponse{Genders: pbGenders}, nil
+}
+
+func (h *HorseHandler) CreateGender(ctx context.Context, in *horsepb.CreateGenderRequest) (*horsepb.CreateGenderResponse, error) {
+	gender, err := h.service.CreateGender(ctx, in.Name, in.Description)
+	if err != nil {
+		return nil, err
+	}
+
+	return &horsepb.CreateGenderResponse{HorseGender: gender.ToHorseGenderPB()}, nil
 }

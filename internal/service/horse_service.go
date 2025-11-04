@@ -37,12 +37,26 @@ func (h *HorseService) GetGenderList(ctx context.Context) ([]*models.HorseGender
 
 	genders := make([]*models.HorseGender, len(dbGenders))
 
-	var currGender *models.HorseGender
-
 	for i := 0; i < len(dbGenders); i++ {
-		currGender = &models.HorseGender{}
-		genders = append(genders, currGender.LoadFromDB(&dbGenders[i]))
+		genders[i] = &models.HorseGender{}
+		genders[i].LoadFromDB(&dbGenders[i])
 	}
 
 	return genders, nil
+}
+
+func (h *HorseService) GetColorList(ctx context.Context) ([]*models.HorseColor, error) {
+	dbColors, err := h.queries.GetHorseColorList(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	colors := make([]*models.HorseColor, len(dbColors))
+
+	for i := 0; i < len(dbColors); i++ {
+		colors[i] = &models.HorseColor{}
+		colors[i].LoadFromDB(&dbColors[i])
+	}
+
+	return colors, nil
 }

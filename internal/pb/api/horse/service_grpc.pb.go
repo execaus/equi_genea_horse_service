@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	HorseService_CreateGender_FullMethodName  = "/horse.HorseService/CreateGender"
 	HorseService_GetGenderList_FullMethodName = "/horse.HorseService/GetGenderList"
+	HorseService_GetColorList_FullMethodName  = "/horse.HorseService/GetColorList"
 )
 
 // HorseServiceClient is the client API for HorseService service.
@@ -30,6 +31,7 @@ const (
 type HorseServiceClient interface {
 	CreateGender(ctx context.Context, in *CreateGenderRequest, opts ...grpc.CallOption) (*CreateGenderResponse, error)
 	GetGenderList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetGenderListResponse, error)
+	GetColorList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetColorListResponse, error)
 }
 
 type horseServiceClient struct {
@@ -60,12 +62,23 @@ func (c *horseServiceClient) GetGenderList(ctx context.Context, in *emptypb.Empt
 	return out, nil
 }
 
+func (c *horseServiceClient) GetColorList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetColorListResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetColorListResponse)
+	err := c.cc.Invoke(ctx, HorseService_GetColorList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HorseServiceServer is the server API for HorseService service.
 // All implementations must embed UnimplementedHorseServiceServer
 // for forward compatibility.
 type HorseServiceServer interface {
 	CreateGender(context.Context, *CreateGenderRequest) (*CreateGenderResponse, error)
 	GetGenderList(context.Context, *emptypb.Empty) (*GetGenderListResponse, error)
+	GetColorList(context.Context, *emptypb.Empty) (*GetColorListResponse, error)
 	mustEmbedUnimplementedHorseServiceServer()
 }
 
@@ -81,6 +94,9 @@ func (UnimplementedHorseServiceServer) CreateGender(context.Context, *CreateGend
 }
 func (UnimplementedHorseServiceServer) GetGenderList(context.Context, *emptypb.Empty) (*GetGenderListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGenderList not implemented")
+}
+func (UnimplementedHorseServiceServer) GetColorList(context.Context, *emptypb.Empty) (*GetColorListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetColorList not implemented")
 }
 func (UnimplementedHorseServiceServer) mustEmbedUnimplementedHorseServiceServer() {}
 func (UnimplementedHorseServiceServer) testEmbeddedByValue()                      {}
@@ -139,6 +155,24 @@ func _HorseService_GetGenderList_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HorseService_GetColorList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HorseServiceServer).GetColorList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HorseService_GetColorList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HorseServiceServer).GetColorList(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HorseService_ServiceDesc is the grpc.ServiceDesc for HorseService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -153,6 +187,10 @@ var HorseService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetGenderList",
 			Handler:    _HorseService_GetGenderList_Handler,
+		},
+		{
+			MethodName: "GetColorList",
+			Handler:    _HorseService_GetColorList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
