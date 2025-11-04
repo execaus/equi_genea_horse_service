@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"equi_genea_horse_service/config"
 	"equi_genea_horse_service/internal/app"
 	"equi_genea_horse_service/internal/db"
@@ -45,10 +44,7 @@ func main() {
 	<-stop
 	fmt.Println("\nShutting down gracefully...")
 	grpcServer.GracefulStop()
-	err = dbConn.Close(context.Background())
-	if err != nil {
-		log.Fatalf("Faled to close connect to db: %s", err.Error())
-	}
+	dbConn.Close()
 	fmt.Println("Server stopped")
 }
 

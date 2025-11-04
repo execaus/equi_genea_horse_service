@@ -5,10 +5,10 @@ import (
 	"equi_genea_horse_service/config"
 	"fmt"
 
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func NewPostgresDB(cfg *config.DatabaseConfig) (*Queries, *pgx.Conn, error) {
+func NewPostgresDB(cfg *config.DatabaseConfig) (*Queries, *pgxpool.Pool, error) {
 	connStr := fmt.Sprintf(
 		"postgres://%s:%s@%s:%d/%s",
 		cfg.User,
@@ -18,12 +18,12 @@ func NewPostgresDB(cfg *config.DatabaseConfig) (*Queries, *pgx.Conn, error) {
 		cfg.Name,
 	)
 
-	conn, err := pgx.Connect(context.Background(), connStr)
+	pool, err := pgxpool.New(context.Background(), connStr)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	queries := New(conn)
+	queries := New(pool)
 
-	return queries, conn, nil
+	return queries, pool, nil
 }
