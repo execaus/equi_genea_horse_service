@@ -17,6 +17,20 @@ func NewHorseHandler(service *service.HorseService) *HorseHandler {
 	return &HorseHandler{service: service}
 }
 
+func (h *HorseHandler) GetGeneticMarkerList(ctx context.Context, _ *emptypb.Empty) (*horsepb.GetGeneticMarkerListResponse, error) {
+	markers, err := h.service.GetGeneticMarkerList(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	pbMarkers := make([]*horsepb.HorseGeneticMarker, len(markers))
+	for i := 0; i < len(markers); i++ {
+		pbMarkers[i] = markers[i].ToHorseGeneticMarkerPB()
+	}
+
+	return &horsepb.GetGeneticMarkerListResponse{Markers: pbMarkers}, nil
+}
+
 func (h *HorseHandler) GetBirthplaceList(ctx context.Context, _ *emptypb.Empty) (*horsepb.GetBirthplaceListResponse, error) {
 	birthplaces, err := h.service.GetBirthplaceList(ctx)
 	if err != nil {
@@ -25,7 +39,7 @@ func (h *HorseHandler) GetBirthplaceList(ctx context.Context, _ *emptypb.Empty) 
 
 	pbBirthplaces := make([]*horsepb.HorseBirthplace, len(birthplaces))
 	for i := 0; i < len(birthplaces); i++ {
-		pbBirthplaces[i] = birthplaces[i].ToHorseColorPB()
+		pbBirthplaces[i] = birthplaces[i].ToHorseBirtplacePB()
 	}
 
 	return &horsepb.GetBirthplaceListResponse{Birthplaces: pbBirthplaces}, nil

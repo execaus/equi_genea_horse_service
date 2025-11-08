@@ -7,14 +7,14 @@ create table if not exists genetic_marker(
 );
 comment on table genetic_marker is 'Справочник генетических маркеров';
 
-insert into genetic_marker(name) values
-    ('EE'),
-    ('Ee'),
-    ('ee'),
-    ('ZZ'),
-    ('Zz'),
-    ('AA'),
-    ('Aa');
+insert into genetic_marker(name, description) values
+    ('EE', 'Гомозиготная доминантная аллель'),
+    ('Ee', 'Гетерозиготная аллель'),
+    ('ee', 'Гомозиготная рецессивная аллель'),
+    ('ZZ', 'Гомозиготная доминантная аллель по Z'),
+    ('Zz', 'Гетерозиготная аллель по Z'),
+    ('AA', 'Гомозиготная доминантная аллель по A'),
+    ('Aa', 'Гетерозиготная аллель по A');
 -- +goose StatementEnd
 
 -- +goose Down

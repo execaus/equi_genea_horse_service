@@ -5,13 +5,13 @@ import (
 	horsepb "equi_genea_horse_service/internal/pb/api/horse"
 )
 
-type HorseGender struct {
+type Gender struct {
 	ID          string
 	Name        string
 	Description *string
 }
 
-func (h *HorseGender) LoadFromDB(dbHorseGender *db.HorseGender) *HorseGender {
+func (h *Gender) LoadFromDB(dbHorseGender *db.HorseGender) *Gender {
 	h.ID = dbHorseGender.ID.String()
 	h.Name = dbHorseGender.Name
 
@@ -24,7 +24,7 @@ func (h *HorseGender) LoadFromDB(dbHorseGender *db.HorseGender) *HorseGender {
 	return h
 }
 
-func (h *HorseGender) ToHorseGenderPB() *horsepb.HorseGender {
+func (h *Gender) ToHorseGenderPB() *horsepb.HorseGender {
 	return &horsepb.HorseGender{
 		Id:          h.ID,
 		Name:        h.Name,

@@ -20,10 +20,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	HorseService_CreateGender_FullMethodName      = "/horse.HorseService/CreateGender"
-	HorseService_GetGenderList_FullMethodName     = "/horse.HorseService/GetGenderList"
-	HorseService_GetColorList_FullMethodName      = "/horse.HorseService/GetColorList"
-	HorseService_GetBirthplaceList_FullMethodName = "/horse.HorseService/GetBirthplaceList"
+	HorseService_CreateGender_FullMethodName         = "/horse.HorseService/CreateGender"
+	HorseService_GetGenderList_FullMethodName        = "/horse.HorseService/GetGenderList"
+	HorseService_GetColorList_FullMethodName         = "/horse.HorseService/GetColorList"
+	HorseService_GetBirthplaceList_FullMethodName    = "/horse.HorseService/GetBirthplaceList"
+	HorseService_GetGeneticMarkerList_FullMethodName = "/horse.HorseService/GetGeneticMarkerList"
 )
 
 // HorseServiceClient is the client API for HorseService service.
@@ -34,6 +35,7 @@ type HorseServiceClient interface {
 	GetGenderList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetGenderListResponse, error)
 	GetColorList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetColorListResponse, error)
 	GetBirthplaceList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetBirthplaceListResponse, error)
+	GetGeneticMarkerList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetGeneticMarkerListResponse, error)
 }
 
 type horseServiceClient struct {
@@ -84,6 +86,16 @@ func (c *horseServiceClient) GetBirthplaceList(ctx context.Context, in *emptypb.
 	return out, nil
 }
 
+func (c *horseServiceClient) GetGeneticMarkerList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetGeneticMarkerListResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetGeneticMarkerListResponse)
+	err := c.cc.Invoke(ctx, HorseService_GetGeneticMarkerList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HorseServiceServer is the server API for HorseService service.
 // All implementations must embed UnimplementedHorseServiceServer
 // for forward compatibility.
@@ -92,6 +104,7 @@ type HorseServiceServer interface {
 	GetGenderList(context.Context, *emptypb.Empty) (*GetGenderListResponse, error)
 	GetColorList(context.Context, *emptypb.Empty) (*GetColorListResponse, error)
 	GetBirthplaceList(context.Context, *emptypb.Empty) (*GetBirthplaceListResponse, error)
+	GetGeneticMarkerList(context.Context, *emptypb.Empty) (*GetGeneticMarkerListResponse, error)
 	mustEmbedUnimplementedHorseServiceServer()
 }
 
@@ -113,6 +126,9 @@ func (UnimplementedHorseServiceServer) GetColorList(context.Context, *emptypb.Em
 }
 func (UnimplementedHorseServiceServer) GetBirthplaceList(context.Context, *emptypb.Empty) (*GetBirthplaceListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBirthplaceList not implemented")
+}
+func (UnimplementedHorseServiceServer) GetGeneticMarkerList(context.Context, *emptypb.Empty) (*GetGeneticMarkerListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGeneticMarkerList not implemented")
 }
 func (UnimplementedHorseServiceServer) mustEmbedUnimplementedHorseServiceServer() {}
 func (UnimplementedHorseServiceServer) testEmbeddedByValue()                      {}
@@ -207,6 +223,24 @@ func _HorseService_GetBirthplaceList_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _HorseService_GetGeneticMarkerList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HorseServiceServer).GetGeneticMarkerList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HorseService_GetGeneticMarkerList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HorseServiceServer).GetGeneticMarkerList(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // HorseService_ServiceDesc is the grpc.ServiceDesc for HorseService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -229,6 +263,10 @@ var HorseService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBirthplaceList",
 			Handler:    _HorseService_GetBirthplaceList_Handler,
+		},
+		{
+			MethodName: "GetGeneticMarkerList",
+			Handler:    _HorseService_GetGeneticMarkerList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -5,13 +5,13 @@ import (
 	horsepb "equi_genea_horse_service/internal/pb/api/horse"
 )
 
-type HorseColor struct {
+type Color struct {
 	ID          string
 	Name        string
 	Description *string
 }
 
-func (h *HorseColor) LoadFromDB(dbHorseColor *db.HorseColor) *HorseColor {
+func (h *Color) LoadFromDB(dbHorseColor *db.HorseColor) *Color {
 	h.ID = dbHorseColor.ID.String()
 	h.Name = dbHorseColor.Name
 
@@ -24,7 +24,7 @@ func (h *HorseColor) LoadFromDB(dbHorseColor *db.HorseColor) *HorseColor {
 	return h
 }
 
-func (h *HorseColor) ToHorseColorPB() *horsepb.HorseColor {
+func (h *Color) ToHorseColorPB() *horsepb.HorseColor {
 	return &horsepb.HorseColor{
 		Id:          h.ID,
 		Name:        h.Name,

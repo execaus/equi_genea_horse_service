@@ -106,3 +106,29 @@ func (q *Queries) GetHorseGenderList(ctx context.Context) ([]HorseGender, error)
 	}
 	return items, nil
 }
+
+const getHorseGeneticMarkerList = `-- name: GetHorseGeneticMarkerList :many
+SELECT id, name, description
+FROM genetic_marker
+ORDER BY name
+`
+
+func (q *Queries) GetHorseGeneticMarkerList(ctx context.Context) ([]GeneticMarker, error) {
+	rows, err := q.db.Query(ctx, getHorseGeneticMarkerList)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GeneticMarker
+	for rows.Next() {
+		var i GeneticMarker
+		if err := rows.Scan(&i.ID, &i.Name, &i.Description); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

@@ -15,8 +15,8 @@ func NewHorseService(queries *db.Queries) *HorseService {
 	return &HorseService{queries: queries}
 }
 
-func (h *HorseService) CreateGender(ctx context.Context, name string, description *string) (*models.HorseGender, error) {
-	dbGender, err := h.queries.CreateHorseGender(ctx, db.CreateHorseGenderParams{
+func (s *HorseService) CreateGender(ctx context.Context, name string, description *string) (*models.Gender, error) {
+	dbGender, err := s.queries.CreateHorseGender(ctx, db.CreateHorseGenderParams{
 		Name:        name,
 		Description: *pgutil.StringPtrToPgText(description),
 	})
@@ -24,55 +24,71 @@ func (h *HorseService) CreateGender(ctx context.Context, name string, descriptio
 		return nil, err
 	}
 
-	gender := models.HorseGender{}
+	gender := models.Gender{}
 
 	return gender.LoadFromDB(&dbGender), nil
 }
 
-func (h *HorseService) GetGenderList(ctx context.Context) ([]*models.HorseGender, error) {
-	dbGenders, err := h.queries.GetHorseGenderList(ctx)
+func (s *HorseService) GetGenderList(ctx context.Context) ([]*models.Gender, error) {
+	dbGenders, err := s.queries.GetHorseGenderList(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	genders := make([]*models.HorseGender, len(dbGenders))
+	genders := make([]*models.Gender, len(dbGenders))
 
 	for i := 0; i < len(dbGenders); i++ {
-		genders[i] = &models.HorseGender{}
+		genders[i] = &models.Gender{}
 		genders[i].LoadFromDB(&dbGenders[i])
 	}
 
 	return genders, nil
 }
 
-func (h *HorseService) GetColorList(ctx context.Context) ([]*models.HorseColor, error) {
-	dbColors, err := h.queries.GetHorseColorList(ctx)
+func (s *HorseService) GetColorList(ctx context.Context) ([]*models.Color, error) {
+	dbColors, err := s.queries.GetHorseColorList(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	colors := make([]*models.HorseColor, len(dbColors))
+	colors := make([]*models.Color, len(dbColors))
 
 	for i := 0; i < len(dbColors); i++ {
-		colors[i] = &models.HorseColor{}
+		colors[i] = &models.Color{}
 		colors[i].LoadFromDB(&dbColors[i])
 	}
 
 	return colors, nil
 }
 
-func (h *HorseService) GetBirthplaceList(ctx context.Context) ([]*models.HorseBirthplace, error) {
-	dbBirthplaces, err := h.queries.GetHorseBirthplaceList(ctx)
+func (s *HorseService) GetBirthplaceList(ctx context.Context) ([]*models.Birthplace, error) {
+	dbBirthplaces, err := s.queries.GetHorseBirthplaceList(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	birthplaces := make([]*models.HorseBirthplace, len(dbBirthplaces))
+	birthplaces := make([]*models.Birthplace, len(dbBirthplaces))
 
 	for i := 0; i < len(dbBirthplaces); i++ {
-		birthplaces[i] = &models.HorseBirthplace{}
+		birthplaces[i] = &models.Birthplace{}
 		birthplaces[i].LoadFromDB(&dbBirthplaces[i])
 	}
 
 	return birthplaces, nil
+}
+
+func (s *HorseService) GetGeneticMarkerList(ctx context.Context) ([]*models.GeneticMarker, error) {
+	dbGeneticMarkers, err := s.queries.GetHorseGeneticMarkerList(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	markers := make([]*models.GeneticMarker, len(dbGeneticMarkers))
+
+	for i := 0; i < len(dbGeneticMarkers); i++ {
+		markers[i] = &models.GeneticMarker{}
+		markers[i].LoadFromDB(&dbGeneticMarkers[i])
+	}
+
+	return markers, nil
 }

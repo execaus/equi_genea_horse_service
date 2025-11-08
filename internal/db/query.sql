@@ -17,3 +17,8 @@ ORDER BY name;
 SELECT *
 FROM horse_birthplace
 ORDER BY name;
+
+-- name: GetHorseGeneticMarkerList :many
+SELECT *
+FROM genetic_marker
+ORDER BY name;
