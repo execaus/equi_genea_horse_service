@@ -60,3 +60,19 @@ func (h *HorseService) GetColorList(ctx context.Context) ([]*models.HorseColor, 
 
 	return colors, nil
 }
+
+func (h *HorseService) GetBirthplaceList(ctx context.Context) ([]*models.HorseBirthplace, error) {
+	dbBirthplaces, err := h.queries.GetHorseBirthplaceList(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	birthplaces := make([]*models.HorseBirthplace, len(dbBirthplaces))
+
+	for i := 0; i < len(dbBirthplaces); i++ {
+		birthplaces[i] = &models.HorseBirthplace{}
+		birthplaces[i].LoadFromDB(&dbBirthplaces[i])
+	}
+
+	return birthplaces, nil
+}

@@ -42,7 +42,7 @@ comment on column horses.description is 'Описание лошади';
 alter table horses add constraint fk_recursive_sire foreign key (sire) references horses(id) on delete set null;
 alter table horses add constraint fk_recursive_dam foreign key (dam) references horses(id) on delete set null;
 alter table horses add constraint fk_gender foreign key (gender) references horse_gender(id);
-alter table horses add constraint fk_birth_place foreign key (birth_place) references horse_birthplaces(id);
+alter table horses add constraint fk_birth_place foreign key (birth_place) references horse_birthplace(id);
 
 -- Связующие таблицы
 create table if not exists horse_color_links(
@@ -73,7 +73,7 @@ comment on column horse_genetic_marker.horse is 'Идентификатор ло
 comment on column horse_genetic_marker.marker is 'Идентификатор генетического маркера';
 
 alter table horse_genetic_marker add constraint fk_horse_genetic_marker_horse foreign key (horse) references horses(id) on delete cascade;
-alter table horse_genetic_marker add constraint fk_horse_genetic_marker_marker foreign key (marker) references genetic_markers(id);
+alter table horse_genetic_marker add constraint fk_horse_genetic_marker_marker foreign key (marker) references genetic_marker(id);
 
 create table if not exists horse_breed_links(
     id uuid primary key default gen_random_uuid(),

@@ -29,6 +29,32 @@ func (q *Queries) CreateHorseGender(ctx context.Context, arg CreateHorseGenderPa
 	return i, err
 }
 
+const getHorseBirthplaceList = `-- name: GetHorseBirthplaceList :many
+SELECT id, name, description
+FROM horse_birthplace
+ORDER BY name
+`
+
+func (q *Queries) GetHorseBirthplaceList(ctx context.Context) ([]HorseBirthplace, error) {
+	rows, err := q.db.Query(ctx, getHorseBirthplaceList)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []HorseBirthplace
+	for rows.Next() {
+		var i HorseBirthplace
+		if err := rows.Scan(&i.ID, &i.Name, &i.Description); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getHorseColorList = `-- name: GetHorseColorList :many
 SELECT id, name, description
 FROM horse_color

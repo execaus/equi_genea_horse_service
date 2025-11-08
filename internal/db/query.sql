@@ -12,3 +12,8 @@ ORDER BY name;
 SELECT *
 FROM horse_color
 ORDER BY name;
+
+-- name: GetHorseBirthplaceList :many
+SELECT *
+FROM horse_birthplace
+ORDER BY name;
