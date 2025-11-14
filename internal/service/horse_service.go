@@ -92,3 +92,19 @@ func (s *HorseService) GetGeneticMarkerList(ctx context.Context) ([]*models.Gene
 
 	return markers, nil
 }
+
+func (s *HorseService) GetBreedList(ctx context.Context) ([]*models.Breed, error) {
+	dbBreeds, err := s.queries.GetHorseBreedList(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	breeds := make([]*models.Breed, len(dbBreeds))
+
+	for i := 0; i < len(dbBreeds); i++ {
+		breeds[i] = &models.Breed{}
+		breeds[i].LoadFromDB(&dbBreeds[i])
+	}
+
+	return breeds, nil
+}

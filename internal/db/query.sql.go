@@ -55,6 +55,32 @@ func (q *Queries) GetHorseBirthplaceList(ctx context.Context) ([]HorseBirthplace
 	return items, nil
 }
 
+const getHorseBreedList = `-- name: GetHorseBreedList :many
+SELECT id, name, description
+FROM horse_breed
+ORDER BY name
+`
+
+func (q *Queries) GetHorseBreedList(ctx context.Context) ([]HorseBreed, error) {
+	rows, err := q.db.Query(ctx, getHorseBreedList)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []HorseBreed
+	for rows.Next() {
+		var i HorseBreed
+		if err := rows.Scan(&i.ID, &i.Name, &i.Description); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getHorseColorList = `-- name: GetHorseColorList :many
 SELECT id, name, description
 FROM horse_color

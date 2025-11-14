@@ -11,9 +11,7 @@ comment on column horse_color.name is 'Название окраса лошад�
 insert into horse_color(name) values
     ('black'),
     ('bay'),
-    ('chestnut'),
-    ('silver'),
-    ('appaloosa');
+    ('chestnut');
 -- +goose StatementEnd
 
 -- +goose Down

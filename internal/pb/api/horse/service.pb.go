@@ -294,6 +294,50 @@ func (x *GetGeneticMarkerListResponse) GetMarkers() []*HorseGeneticMarker {
 	return nil
 }
 
+type GetBreedListResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Breeds        []*HorseBreed          `protobuf:"bytes,1,rep,name=breeds,proto3" json:"breeds,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBreedListResponse) Reset() {
+	*x = GetBreedListResponse{}
+	mi := &file_api_horse_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBreedListResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBreedListResponse) ProtoMessage() {}
+
+func (x *GetBreedListResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_horse_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBreedListResponse.ProtoReflect.Descriptor instead.
+func (*GetBreedListResponse) Descriptor() ([]byte, []int) {
+	return file_api_horse_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetBreedListResponse) GetBreeds() []*HorseBreed {
+	if x != nil {
+		return x.Breeds
+	}
+	return nil
+}
+
 var File_api_horse_service_proto protoreflect.FileDescriptor
 
 const file_api_horse_service_proto_rawDesc = "" +
@@ -312,13 +356,16 @@ const file_api_horse_service_proto_rawDesc = "" +
 	"\x19GetBirthplaceListResponse\x129\n" +
 	"\vbirthplaces\x18\x01 \x03(\v2\x17.models.HorseBirthplaceR\vbirthplaces\"T\n" +
 	"\x1cGetGeneticMarkerListResponse\x124\n" +
-	"\amarkers\x18\x01 \x03(\v2\x1a.models.HorseGeneticMarkerR\amarkers2\x87\x03\n" +
+	"\amarkers\x18\x01 \x03(\v2\x1a.models.HorseGeneticMarkerR\amarkers\"B\n" +
+	"\x14GetBreedListResponse\x12*\n" +
+	"\x06breeds\x18\x01 \x03(\v2\x12.models.HorseBreedR\x06breeds2\xcc\x03\n" +
 	"\fHorseService\x12G\n" +
 	"\fCreateGender\x12\x1a.horse.CreateGenderRequest\x1a\x1b.horse.CreateGenderResponse\x12E\n" +
 	"\rGetGenderList\x12\x16.google.protobuf.Empty\x1a\x1c.horse.GetGenderListResponse\x12C\n" +
 	"\fGetColorList\x12\x16.google.protobuf.Empty\x1a\x1b.horse.GetColorListResponse\x12M\n" +
 	"\x11GetBirthplaceList\x12\x16.google.protobuf.Empty\x1a .horse.GetBirthplaceListResponse\x12S\n" +
-	"\x14GetGeneticMarkerList\x12\x16.google.protobuf.Empty\x1a#.horse.GetGeneticMarkerListResponseB\x13Z\x11api/horse;horsepbb\x06proto3"
+	"\x14GetGeneticMarkerList\x12\x16.google.protobuf.Empty\x1a#.horse.GetGeneticMarkerListResponse\x12C\n" +
+	"\fGetBreedList\x12\x16.google.protobuf.Empty\x1a\x1b.horse.GetBreedListResponseB\x13Z\x11api/horse;horsepbb\x06proto3"
 
 var (
 	file_api_horse_service_proto_rawDescOnce sync.Once
@@ -332,7 +379,7 @@ func file_api_horse_service_proto_rawDescGZIP() []byte {
 	return file_api_horse_service_proto_rawDescData
 }
 
-var file_api_horse_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_api_horse_service_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_api_horse_service_proto_goTypes = []any{
 	(*CreateGenderRequest)(nil),          // 0: horse.CreateGenderRequest
 	(*CreateGenderResponse)(nil),         // 1: horse.CreateGenderResponse
@@ -340,33 +387,38 @@ var file_api_horse_service_proto_goTypes = []any{
 	(*GetColorListResponse)(nil),         // 3: horse.GetColorListResponse
 	(*GetBirthplaceListResponse)(nil),    // 4: horse.GetBirthplaceListResponse
 	(*GetGeneticMarkerListResponse)(nil), // 5: horse.GetGeneticMarkerListResponse
-	(*HorseGender)(nil),                  // 6: models.HorseGender
-	(*HorseColor)(nil),                   // 7: models.HorseColor
-	(*HorseBirthplace)(nil),              // 8: models.HorseBirthplace
-	(*HorseGeneticMarker)(nil),           // 9: models.HorseGeneticMarker
-	(*emptypb.Empty)(nil),                // 10: google.protobuf.Empty
+	(*GetBreedListResponse)(nil),         // 6: horse.GetBreedListResponse
+	(*HorseGender)(nil),                  // 7: models.HorseGender
+	(*HorseColor)(nil),                   // 8: models.HorseColor
+	(*HorseBirthplace)(nil),              // 9: models.HorseBirthplace
+	(*HorseGeneticMarker)(nil),           // 10: models.HorseGeneticMarker
+	(*HorseBreed)(nil),                   // 11: models.HorseBreed
+	(*emptypb.Empty)(nil),                // 12: google.protobuf.Empty
 }
 var file_api_horse_service_proto_depIdxs = []int32{
-	6,  // 0: horse.CreateGenderResponse.horse_gender:type_name -> models.HorseGender
-	6,  // 1: horse.GetGenderListResponse.genders:type_name -> models.HorseGender
-	7,  // 2: horse.GetColorListResponse.colors:type_name -> models.HorseColor
-	8,  // 3: horse.GetBirthplaceListResponse.birthplaces:type_name -> models.HorseBirthplace
-	9,  // 4: horse.GetGeneticMarkerListResponse.markers:type_name -> models.HorseGeneticMarker
-	0,  // 5: horse.HorseService.CreateGender:input_type -> horse.CreateGenderRequest
-	10, // 6: horse.HorseService.GetGenderList:input_type -> google.protobuf.Empty
-	10, // 7: horse.HorseService.GetColorList:input_type -> google.protobuf.Empty
-	10, // 8: horse.HorseService.GetBirthplaceList:input_type -> google.protobuf.Empty
-	10, // 9: horse.HorseService.GetGeneticMarkerList:input_type -> google.protobuf.Empty
-	1,  // 10: horse.HorseService.CreateGender:output_type -> horse.CreateGenderResponse
-	2,  // 11: horse.HorseService.GetGenderList:output_type -> horse.GetGenderListResponse
-	3,  // 12: horse.HorseService.GetColorList:output_type -> horse.GetColorListResponse
-	4,  // 13: horse.HorseService.GetBirthplaceList:output_type -> horse.GetBirthplaceListResponse
-	5,  // 14: horse.HorseService.GetGeneticMarkerList:output_type -> horse.GetGeneticMarkerListResponse
-	10, // [10:15] is the sub-list for method output_type
-	5,  // [5:10] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	7,  // 0: horse.CreateGenderResponse.horse_gender:type_name -> models.HorseGender
+	7,  // 1: horse.GetGenderListResponse.genders:type_name -> models.HorseGender
+	8,  // 2: horse.GetColorListResponse.colors:type_name -> models.HorseColor
+	9,  // 3: horse.GetBirthplaceListResponse.birthplaces:type_name -> models.HorseBirthplace
+	10, // 4: horse.GetGeneticMarkerListResponse.markers:type_name -> models.HorseGeneticMarker
+	11, // 5: horse.GetBreedListResponse.breeds:type_name -> models.HorseBreed
+	0,  // 6: horse.HorseService.CreateGender:input_type -> horse.CreateGenderRequest
+	12, // 7: horse.HorseService.GetGenderList:input_type -> google.protobuf.Empty
+	12, // 8: horse.HorseService.GetColorList:input_type -> google.protobuf.Empty
+	12, // 9: horse.HorseService.GetBirthplaceList:input_type -> google.protobuf.Empty
+	12, // 10: horse.HorseService.GetGeneticMarkerList:input_type -> google.protobuf.Empty
+	12, // 11: horse.HorseService.GetBreedList:input_type -> google.protobuf.Empty
+	1,  // 12: horse.HorseService.CreateGender:output_type -> horse.CreateGenderResponse
+	2,  // 13: horse.HorseService.GetGenderList:output_type -> horse.GetGenderListResponse
+	3,  // 14: horse.HorseService.GetColorList:output_type -> horse.GetColorListResponse
+	4,  // 15: horse.HorseService.GetBirthplaceList:output_type -> horse.GetBirthplaceListResponse
+	5,  // 16: horse.HorseService.GetGeneticMarkerList:output_type -> horse.GetGeneticMarkerListResponse
+	6,  // 17: horse.HorseService.GetBreedList:output_type -> horse.GetBreedListResponse
+	12, // [12:18] is the sub-list for method output_type
+	6,  // [6:12] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_api_horse_service_proto_init() }
@@ -382,7 +434,7 @@ func file_api_horse_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_horse_service_proto_rawDesc), len(file_api_horse_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

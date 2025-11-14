@@ -17,6 +17,20 @@ func NewHorseHandler(service *service.HorseService) *HorseHandler {
 	return &HorseHandler{service: service}
 }
 
+func (h *HorseHandler) GetBreedList(ctx context.Context, _ *emptypb.Empty) (*horsepb.GetBreedListResponse, error) {
+	breeds, err := h.service.GetBreedList(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	pbBreeds := make([]*horsepb.HorseBreed, len(breeds))
+	for i := 0; i < len(breeds); i++ {
+		pbBreeds[i] = breeds[i].ToHorseBreedPB()
+	}
+
+	return &horsepb.GetBreedListResponse{Breeds: pbBreeds}, nil
+}
+
 func (h *HorseHandler) GetGeneticMarkerList(ctx context.Context, _ *emptypb.Empty) (*horsepb.GetGeneticMarkerListResponse, error) {
 	markers, err := h.service.GetGeneticMarkerList(ctx)
 	if err != nil {

@@ -22,3 +22,8 @@ ORDER BY name;
 SELECT *
 FROM genetic_marker
 ORDER BY name;
+
+-- name: GetHorseBreedList :many
+SELECT *
+FROM horse_breed
+ORDER BY name;
